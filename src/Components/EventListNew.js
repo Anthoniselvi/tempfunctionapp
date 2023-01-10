@@ -14,6 +14,7 @@ import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
+import EntryListNew from "./EntryListNew";
 
 export default function EventListNew() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ export default function EventListNew() {
   const eventId = searchParam.get("event");
 
   const getTotalAmount = (eventId) => {
+    console.log(eventId);
     const totalAmount = entries
       .filter((entry) => entry.eventId === eventId)
       .map((entry) => parseInt(entry.amount))
@@ -33,10 +35,9 @@ export default function EventListNew() {
     return totalAmount;
   };
 
-  const gettotalGiftforEvent = (eventId) => {
-    return entries.filter(
-      (entry) => entry.eventId === eventId && entry.gift !== ""
-    ).length;
+  const gettotalGiftforEvent = (id) => {
+    return entries.filter((entry) => entry.eventId === id && entry.gift !== "")
+      .length;
   };
 
   const navigateToAddNewEvent = (e) => {
@@ -60,49 +61,20 @@ export default function EventListNew() {
     axios.get("http://localhost:2023/events").then((response) => {
       // console.log(response);
       console.log(response.data);
-      setUpdatedEvents(response.data);
+      setEventsList(response.data);
     });
   };
 
-  // const fetchAllEntries = () => {
-  //   axios.get("http://localhost:2023/entries").then((response) => {
-  //     // console.log(response);
-  //     console.log(response.data);
-  //     setUpdatedEntries(response.data);
-  //   });
-  // };
-
-  const setUpdatedEvents = (responseData) => {
-    const eventsList = responseData.map((singleEvent) => {
-      return {
-        id: singleEvent.id,
-        name: singleEvent.name,
-        place: singleEvent.place,
-        date: singleEvent.date,
-      };
+  const fetchAllEntries = () => {
+    axios.get("http://localhost:2023/entries").then((response) => {
+      // console.log(response);
+      console.log(response.data);
+      setEntries(response.data);
     });
-
-    setEventsList(eventsList);
   };
-
-  // const setUpdatedEntries = (responseData) => {
-  //   const entriesList = responseData.map((singleEntry) => {
-  //     return {
-  //       id: singleEntry.id,
-  //       personName: singleEntry.personName,
-  //       city: singleEntry.city,
-  //       amount: singleEntry.amount,
-  //       gift: singleEntry.gift,
-  //       eventId: singleEntry.eventId,
-  //     };
-  //   });
-
-  //   setEntries(entriesList);
-  // };
-
   useEffect(() => {
     fetchAllEvents();
-    // fetchAllEntries();
+    fetchAllEntries();
   }, []);
 
   const editEvent = (e, id) => {
@@ -138,7 +110,7 @@ export default function EventListNew() {
         <div className="eventlist_container">
           {eventsList.length > 0 && (
             <>
-              {eventsList.map((singleEvent) => (
+              {eventsList.map((singleEvent, id) => (
                 <div
                   className="event-inner-box"
                   onClick={(e) => {
@@ -147,6 +119,7 @@ export default function EventListNew() {
                     navigateToEntryList(singleEvent.id);
                   }}
                 >
+                  <div className="cartoon"></div>
                   <div className="event_head_name">
                     <h4>{singleEvent.name}</h4>
                     <HiDotsVertical
@@ -172,26 +145,22 @@ export default function EventListNew() {
                       <p onClick={(e) => deleteEvent(e, singleEvent.id)}>
                         Delete
                       </p>
-                      {/* <GrNewWindow
-                        onClick={() => navigateToEntryList(event.id)}
-                      />
-                      <AiFillEdit onClick={() => editEvent(event.id)} />
-                      <MdDelete onClick={() => deleteEvent(event.id)} /> */}
                     </div>
                   ) : null}
 
                   <table className="event-table">
-                    <tr>
-                      <td>Total Amount</td>
-                      <td>
-                        Rs. <span>{getTotalAmount(singleEvent.id)}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Total No.of Gift</td>
-                      {/* <td>{getTotalGift(event.id)}</td> */}
-                      <td>{gettotalGiftforEvent(singleEvent.id)}</td>
-                    </tr>
+                    <tbody>
+                      <tr>
+                        <td>Total Amount</td>
+                        <td>
+                          Rs. <span>{getTotalAmount(singleEvent.id)}</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Total No.of Gift</td>
+                        <td>{gettotalGiftforEvent(singleEvent.id)}</td>
+                      </tr>
+                    </tbody>
                   </table>
                 </div>
               ))}

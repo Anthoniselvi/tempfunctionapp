@@ -33,6 +33,7 @@ export default function EntriesList() {
     );
     setEntries(searchResult);
   }
+
   const totalAmount = entries
     .map((entry) => entry.amount)
     .reduce((acc, value) => acc + +value, 0);
@@ -52,24 +53,21 @@ export default function EntriesList() {
   };
 
   const deleteEntry = (id) => {
-    // const entryArray = totalEntries.filter((item) => {
-    //   return item.id !== id;
-    // });
-    // setTotalEntries(entryArray);
+    const entryArray = entries.filter((item) => {
+      return item.id !== id;
+    });
+    setEntries(entryArray);
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:2023/entries/${eventId}`).then((response) => {
-      console.log(response);
-      console.log(response.data);
-      console.log(response.data[0].id);
-      console.log(response.data[0].personName);
-      console.log(response.data[0].city);
-      console.log(response.data[0].amount);
-      console.log(response.data[0].gift);
-      // setUpdatedEntries(response.data);
-      setEntries(response.data);
-    });
+    axios
+      .get(`http://localhost:2023/entries/all/${eventId}`)
+      .then((response) => {
+        console.log(response);
+        console.log(response.data);
+
+        setEntries(response.data);
+      });
   }, []);
 
   return (
@@ -104,41 +102,45 @@ export default function EntriesList() {
               {/* onClick={moveToEntry} */}
               <div className="entry_head_name">
                 <table className="entry-table">
-                  <tr>
-                    <th>Person Name</th>
-                    <th>Amount</th>
-                    <th>Gift</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                  </tr>
-                  {entries.map((entry) => (
-                    <tr key={entry.id}>
-                      <td>
-                        <Avatar
-                          name={entry.personName}
-                          size="35"
-                          round={true}
-                          maxInitials="1"
-                        />
-                        {entry.personName}
-                      </td>
-                      <td>{entry.amount}</td>
-                      <td>{entry.gift}</td>
-                      <td>
-                        <AiFillEdit onClick={() => editEntry(entry.id)} />
-                      </td>
-                      <td>
-                        <MdDelete onClick={() => deleteEntry(entry.id)} />
-                      </td>
+                  <thead>
+                    <tr>
+                      <th>Person Name</th>
+                      <th>Amount</th>
+                      <th>Gift</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
                     </tr>
-                  ))}
-                  {eventsList.map((event) => (
+                  </thead>
+                  <tbody>
+                    {entries.map((entry) => (
+                      <tr key={entry.id}>
+                        <td>
+                          <Avatar
+                            name={entry.personName}
+                            size="35"
+                            round={true}
+                            maxInitials="1"
+                          />
+                          {entry.personName}
+                        </td>
+                        <td>{entry.amount}</td>
+                        <td>{entry.gift}</td>
+                        <td>
+                          <AiFillEdit onClick={() => editEntry(entry.id)} />
+                        </td>
+                        <td>
+                          <MdDelete onClick={() => deleteEntry(entry.id)} />
+                        </td>
+                      </tr>
+                    ))}
+                    {/* {eventsList.map((event) => ( */}
                     <tr className="total-entry">
-                      s<td>Total</td>
+                      <td>Total</td>
                       <td>{totalAmount}</td>
                       <td>{totalGift}</td>
                     </tr>
-                  ))}
+                    {/* )) } */}
+                  </tbody>
                 </table>
               </div>
             </div>

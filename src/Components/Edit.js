@@ -10,10 +10,6 @@ function Edit() {
   const navigate = useNavigate();
   const [searchParam] = useSearchParams();
   const entryId = searchParam.get("entry");
-
-  // const [totalEntries, setTotalEntries] = useState(getTotalDatafromEntry());
-
-  // const [editEntry, setEditEntry] = useState(getDataforSingleEntry(entryId));
   const [personName, setPersonName] = useState();
   const [city, setCity] = useState();
   const [amount, setAmount] = useState();
@@ -22,27 +18,19 @@ function Edit() {
 
   const handleSubmitEditEntry = (e) => {
     e.preventDefault();
-    // let newEdit = {
-    //   id: editEntry.id,
-    //   personName,
-    //   city,
-    //   amount,
-    //   gift,
-    //   eventId: editEntry.eventId,
-    // };
-    // console.log(newEdit);
-
-    // const updatedtotalEntry = totalEntries.map((singleEntry) => {
-    //   if (parseInt(singleEntry.id) === parseInt(entryId)) {
-    //     return newEdit;
-    //   } else {
-    //     return singleEntry;
-    //   }
-    // });
-
-    // localStorage.setItem("entries", JSON.stringify(updatedtotalEntry));
-    // console.log("updated total entry : " + JSON.stringify(updatedtotalEntry));
-    // navigate(`/entrylist?event=${editEntry.eventId}`);
+    axios
+      .put("http://localhost:2023/entries/", {
+        id: parseInt(entryId),
+        personName: personName,
+        city: city,
+        amount: amount,
+        gift: gift,
+      })
+      .then((response) => {
+        console.log(response);
+        navigate("/eventslist");
+      });
+    navigate(`/entrylist?event=${entryId}`);
   };
 
   useEffect(() => {

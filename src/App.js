@@ -12,6 +12,7 @@ import EntryListNew from "./Components/EntryListNew";
 import Edit from "./Components/Edit";
 import Event from "./Components/Event";
 import DataTable from "./Components/EditEntry";
+import { Table } from "@mui/material";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="edit" element={<Edit />} />
             <Route path="event" element={<Event />} />
             <Route path="editEntry" element={<DataTable />} />
+            <Route path="table" element={<Table />} />
           </Route>
         </Routes>
       </BrowserRouter>
