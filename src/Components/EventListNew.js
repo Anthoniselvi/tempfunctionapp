@@ -18,6 +18,7 @@ import EntryListNew from "./EntryListNew";
 
 export default function EventListNew() {
   const navigate = useNavigate();
+  const [totalAmount, setTotalAmount] = useState([]);
   const [eventsList, setEventsList] = useState([]);
   const [entries, setEntries] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState("");
@@ -27,6 +28,13 @@ export default function EventListNew() {
 
   const getTotalAmount = (eventId) => {
     console.log(eventId);
+    // axios
+    //   .get(`http://localhost:2023/entries/all/${eventId}`)
+    //   .then((response) => {
+    //     console.log(response);
+    //     console.log(response.data);
+    //     // setTotalAmount(response.data);
+    //   });
     const totalAmount = entries
       .filter((entry) => entry.eventId === eventId)
       .map((entry) => parseInt(entry.amount))
@@ -75,6 +83,13 @@ export default function EventListNew() {
   useEffect(() => {
     fetchAllEvents();
     fetchAllEntries();
+    // axios
+    //   .get(`http://localhost:2023/entries/total/${eventId}`)
+    //   .then((response) => {
+    //     console.log(response);
+    //     console.log(response.data);
+    //     setEntries(response.data);
+    //   });
   }, []);
 
   const editEvent = (e, id) => {

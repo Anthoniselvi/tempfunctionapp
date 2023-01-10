@@ -17,8 +17,10 @@ export default function EntriesList() {
   const [searchParam] = useSearchParams();
   const eventId = searchParam.get("event");
 
-  const [eventsList, setEventsList] = useState();
+  // const [eventsList, setEventsList] = useState();
+
   const [entries, setEntries] = useState([]);
+  // const [totalAmount, setTotalAmount] = useState();
 
   function onChangeHandle(e) {
     console.log("e.target.value", e.target.value);
@@ -65,10 +67,19 @@ export default function EntriesList() {
       .then((response) => {
         console.log(response);
         console.log(response.data);
-
         setEntries(response.data);
       });
   }, []);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:2023/entries/total/${eventId}`)
+  //     .then((response) => {
+  //       console.log(response);
+  //       console.log(response.data);
+  //       setTotalAmount(response.data);
+  //     });
+  // }, []);
 
   return (
     <div className="entry_container">
@@ -100,49 +111,48 @@ export default function EntriesList() {
           <>
             <div className="entry-inner-box">
               {/* onClick={moveToEntry} */}
-              <div className="entry_head_name">
-                <table className="entry-table">
-                  <thead>
-                    <tr>
-                      <th>Person Name</th>
-                      <th>Amount</th>
-                      <th>Gift</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
+              {/* <div className="entry_head_name"> */}
+              <table className="entry-table">
+                <thead>
+                  <tr>
+                    <th>Person Name</th>
+                    <th>Amount</th>
+                    <th>Gift</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {entries.map((entry) => (
+                    <tr key={entry.id}>
+                      <td>
+                        <Avatar
+                          name={entry.personName}
+                          size="35"
+                          round={true}
+                          maxInitials="1"
+                        />
+                        {entry.personName}
+                      </td>
+                      <td>{entry.amount}</td>
+                      <td>{entry.gift}</td>
+                      <td>
+                        <AiFillEdit onClick={() => editEntry(entry.id)} />
+                      </td>
+                      <td>
+                        <MdDelete onClick={() => deleteEntry(entry.id)} />
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {entries.map((entry) => (
-                      <tr key={entry.id}>
-                        <td>
-                          <Avatar
-                            name={entry.personName}
-                            size="35"
-                            round={true}
-                            maxInitials="1"
-                          />
-                          {entry.personName}
-                        </td>
-                        <td>{entry.amount}</td>
-                        <td>{entry.gift}</td>
-                        <td>
-                          <AiFillEdit onClick={() => editEntry(entry.id)} />
-                        </td>
-                        <td>
-                          <MdDelete onClick={() => deleteEntry(entry.id)} />
-                        </td>
-                      </tr>
-                    ))}
-                    {/* {eventsList.map((event) => ( */}
-                    <tr className="total-entry">
-                      <td>Total</td>
-                      <td>{totalAmount}</td>
-                      <td>{totalGift}</td>
-                    </tr>
-                    {/* )) } */}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+
+                  <tr className="total-entry">
+                    <td>Total</td>
+                    <td>{totalAmount}</td>
+                    <td>{totalGift}</td>
+                  </tr>
+                </tbody>
+              </table>
+              {/* </div> */}
             </div>
           </>
         )}

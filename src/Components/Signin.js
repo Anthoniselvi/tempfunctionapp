@@ -61,7 +61,7 @@ function Signin() {
       <div className="signin_top_container">
         <div className="signin_top_navbar">
           <AiOutlineArrowLeft onClick={moveToFrontPage} />
-          <p className="signin_top_head">Login</p>
+          {/* <p className="signin_top_head">Login</p> */}
         </div>
         <h1 className="signin_title">Sign In</h1>
         <p className="signin_para">

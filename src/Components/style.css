@@ -3,19 +3,49 @@
 .signup_container, .event_container,
 .addnewevent_container, .entry_container,
 .eventlist_container, .editentry_container{
+
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow-y:hidden;
+    /* overflow-y:hidden; */
   
+}
+.signin_container{
+  padding: 10px 100px;
+}
+@media (max-width: 300px) {
+  .front_container{
+    /* height:100%;
+    overflow-y: hidden; */
+  }
+  .front_buttons{
+
+    flex-direction: column;
+    gap: 10px;
+  }
+  .front_bottom_container{
+    gap:10px;
+  }
 }
 
 .eventlist_container{
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
   /* flex-direction: row;
   justify-content: space-around; */
+}
+@media (max-width: 900px) {
+  
+  .eventlist_container{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 600px) {
+  
+  .eventlist_container{
+    grid-template-columns: 1fr;
+  }
 }
    .cartoon{
     background: url("./cartoon.jpg");
@@ -103,11 +133,11 @@
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
 
-    padding: 20px;
+    padding: 200px;
     padding-top: 30px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     gap: 20px;
 }
 .signin_input, .signin_sign_button,
@@ -366,6 +396,7 @@ font-size: 15px;
     gap: 20px;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
+    padding: 20px;
   }
   .entry_search{
     display:flex;
@@ -439,6 +470,7 @@ height: 50px;
       flex-direction: column;
       align-items: center; 
       gap:20px;
+      padding: 20px;
       /* border: 1px solid red; */
           }
           .total-entry{
@@ -538,8 +570,9 @@ gap: 10px;
     transition: 0.5s all ease-in-out;
     z-index: 2;
   }
+ 
   table{
-
+border-radius: 20px;
     text-align: center;
     border-collapse: collapse;
     width: 100%;
@@ -547,23 +580,23 @@ gap: 10px;
  
   }
  
-  
-  tr:nth-child(even){background-color: #f2f2f2;}
+   
+  /* tr:nth-child(even){background-color: #f2f2f2;} */
   
   tr:hover {background-color: #ddd;}
   
-  td, th{
+    td, th{
     border: 1px solid #ddd;
     text-align: center;
     padding: 10px;
-    /* align-items: center; */
+    align-items: center; 
   }
-  td{
-    width: 100%;
-  }
+  
+ 
   th{
   padding:12px;
     text-align: center;
     background-color: #a4133c;
     color: white;
   }
+ 
